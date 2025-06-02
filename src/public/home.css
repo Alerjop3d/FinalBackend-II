@@ -1,0 +1,156 @@
+#container {
+    display: grid;
+    grid-template-areas:
+      "menu content";
+    grid-template-columns: 1fr 6fr; /* Menú lateral y contenido principal */
+    gap: 2px;
+    padding: 5px;
+}
+
+#container #filter {
+    grid-area: menu;
+    margin: 15px 0px 0px 10px;
+    padding: 10px 0px 10px 0px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    height: min-content;
+    
+}
+
+#container #filter a {
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    color:black;
+    display: block;
+    margin: 0px 5px 0px 5px;
+    padding: 5px 0px 0px 5px;
+
+}
+
+@media (max-width: 450px) {
+    #container #filter span {
+      font-size: 0;
+
+    }
+
+}
+
+#container #filter a:hover {
+    background-color: rgb(204, 204, 204);
+    border-radius: 5px;
+}
+
+
+
+#container #main {
+    display: grid;
+    grid-area: content;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Columnas responsivas */
+    gap: 10px; /* Espacio entre elementos */
+    padding: 10px;
+    overflow-y: auto; /* Barra de scroll vertical */
+    max-height: 85vh; /* Altura máxima */
+}
+
+#container #main div {
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 20px 0;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+#container #main div img {
+    width: 200px;
+    height: 185px;
+}
+
+#container #main div button {
+    background-color:darkgray;
+    border-radius: 10px;
+    width: 60%;
+    height: 30px;
+}
+
+#container #main div button:hover {
+    background-color: green;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Agrega una barra de scroll vertical */
+    height: auto;
+    width: 40vh;
+    position: fixed;
+    padding: 15px;
+    margin: 1vh;
+    left: -100%;
+    top: 1vh;
+    bottom: 1vh;
+    border-radius: 15px;
+    background-color:rgb(218, 190, 154);
+    transition: left 0.5s ease;
+    text-overflow: ellipsis;
+    line-height: 0.4;
+    white-space: nowrap;
+}
+
+#menu.open {
+    left: 0;
+}
+
+#panelCart{
+    position: absolute;
+    bottom: 0;
+    display: flexbox;
+    flex-direction: row;
+
+}
+
+#menu .clear-cart {
+    margin: 10px;
+    width: auto;
+    text-align: center;
+}
+
+#menu div img {
+    float: left ;
+    padding-right: 10px;
+    width: 80px; /* Ajusta el ancho */
+    height: 80px; /* Ajusta el alto */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+}
+
+#sidebar-button {
+    position: fixed; 
+    bottom: 25px;    
+    right: 30px;    
+    background-color:forestgreen; 
+    color: white;             
+    border: 1px solid #ccc;  
+    border-radius: 15px;      
+    width: 70px;           
+    height: 70px;           
+    font-size: 24px;        
+    cursor: pointer;         
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidebar-button:hover {
+    background-color: green; /* Cambia el color al pasar el mouse */
+}
+
+h1 {
+    font-size: 60px;
+    color: #4962a7;
+    text-align: center;
+    border-bottom: 1px solid #4962a7;
+}

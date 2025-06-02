@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+      margin: 0 15px; /* Margen solo a los lados */
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .topnav input {
+      float: right; /* Alinea el input a la derecha */
+      padding: 8px;
+      border: none;
+      border-radius: 15px;
+      margin: 8px;
+    }
+
+    .topnav #login {
+      float: right;
+    }
+
+    .topnav #gitlink {
+      float: right;
+      padding: 12px;
+    }
+
+    .content {
+      box-shadow: #ddd 0px 0px 8px;
+      border-radius: 10px;
+      margin: 14px 16px;
+      height: calc(100vh - 90px); /* Ajusta la altura según el tamaño de la pantalla */
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+  <a href="/news">News</a>
+  <a href="/contact">Contact</a>
+  <a href="/about">About</a>
+
+  <a href="/login" id="login">Login </a>
+  <a href="https://github.com/Alerjop3d/Finalbackend-II" aria-label="GitHub" id="gitlink">
+    <i class="bi bi-github"></i>
+  </a>
+</div>
+
+<div class="content">
+  {{{body}}}
+</div>
+
+</body>
+</html>
