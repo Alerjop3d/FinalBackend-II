@@ -2,7 +2,7 @@ import { User } from  '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const secretKey = 'alejo2011'; 
+
 
 export class UserController {
     async register(req, res) {
@@ -22,7 +22,7 @@ export class UserController {
                 password: hashedPassword
             });
             await user.save();
-            res.render('successRegis');
+            res.render('successRegis', {layout : "simple"});
         } catch (error) {
             res.status(400).send(error);
         }
@@ -31,8 +31,12 @@ export class UserController {
     async login(req, res) {
         try {
             const { email, password } = req.body;
-            
             const user = await User.findOne({ email });
+            
+            if (!email || !password) {
+                return res.status(400).send({ message: 'Email y contraseña son requeridos' });
+            }
+
             if (!user) {
                 return res.status(401).send({ message: 'Usuario no encontrado' });
             }
@@ -42,14 +46,19 @@ export class UserController {
                 return res.status(401).send({ message: 'Contraseña incorrecta' });
             }
             
-            req.session.user = usuario;
-            req.session.userId = usuario._id;
+            req.session.user = user.email;
+            req.session.userId = user._id;
+            req.session.first_name = user.first_name;
+            req.session.cart = user.cart;
             
-            const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true });
-            res.render('profile', { first_name: user.first_name});
+
+            res.redirect('/')
+
         } catch (error) {
-            res.status(500).send({ message: 'Error al iniciar sesión' });
+            console.error('Error al iniciar sesión:', error);
+            res.status(500).send({ message: 'Error interno del servidor' });
         }
     }
 

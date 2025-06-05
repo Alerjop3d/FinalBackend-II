@@ -70,7 +70,14 @@
   <a href="/contact">Contact</a>
   <a href="/about">About</a>
 
+  {{#if user}}
+  <!-- Contenido para usuarios logueados -->
+  <a href="/users/profile" id="login">hola {{user}} </a>
+  {{else}}
+  <!-- Contenido para invitados -->
   <a href="/login" id="login">Login </a>
+  {{/if}}
+
   <a href="https://github.com/Alerjop3d/Finalbackend-II" aria-label="GitHub" id="gitlink">
     <i class="bi bi-github"></i>
   </a>
@@ -82,3 +89,5 @@
 
 </body>
 </html>
+
+
