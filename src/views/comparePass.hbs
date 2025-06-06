@@ -1,0 +1,15 @@
+<h1>Actualizar password</h1>
+
+<form action="/users/compareNewPass" method="post" id="comparePass-form">
+  <input type="hidden" name="email" value="{{userEmail}}">
+  Inserte su codigo de verificación:
+  <input type="text" name="code" id="code" placeholder="Verification code" />
+  Password:
+  <input type="password" name="password1" id="password1" placeholder="password" />
+  Repeat password:
+  <input type="password" name="password2" id="password2" placeholder=" repeat password" />
+  <input type="submit" value="Actualizar" />
+</form>
+
+<div id="error-message" style="color: red">{{error}}</div>
+<div id="sucess-message" style="color: green;"></div>

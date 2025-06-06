@@ -1,11 +1,25 @@
 import { User } from './models/userModel.js';
+import nodemailer from 'nodemailer';
+import 'dotenv/config';
+
+// ------------- nodemailer transport config ----------------->
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, 
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS
+  }
+});
+
 
 class Writer {
   constructor (req) {
     this.userId = req.session.userId; 
   }
 
-  // Método para escribir datos en el archivo
+  // ------------- Update item por cart ----------------->
   async updateCart(cartData, userId = this.userId) {
     if (!userId) {
       console.error('No se proporcionó un userId válido.');
@@ -15,7 +29,6 @@ class Writer {
       console.error('Datos del carrito no válidos:', cartData);
       return;
     }
-    // Verificar si el usuario existe
     const user = await User.findById(userId);
     if (!user) {
       console.error('Usuario no encontrado con el ID:', userId);
@@ -31,7 +44,8 @@ class Writer {
       console.error('Error al actualizar el carrito:', err);
     }
   }
-  // Método para obtener el carrito del usuario
+
+  // ------------- Get cart items from user database ----------------->
   async getCartItems(userId = this.userId) {
     try {
       const cart = (await User.findById(userId, 'cart')).cart;
@@ -41,7 +55,23 @@ class Writer {
       return [];
     }
   }
-}
 
+  // ------------- Send email to user ----------------->
+  async sendMail(to, subject, text, html) {
+    try {
+      const mailOptions = {
+        from: 'devicestore@mail.com',
+        to,
+        subject,
+        text,
+        html
+      };
+      await transporter.sendMail(mailOptions);
+      console.log('Correo electrónico enviado con éxito');
+    } catch (error) {
+      console.error('Error al enviar el correo electrónico:', error);
+    }
+  }
+}
 
 export default Writer;

@@ -1,8 +1,8 @@
 import { User } from  '../models/userModel.js';
-import bcrypt from 'bcrypt';
+import Writer from '../manager.js';
 import jwt from 'jsonwebtoken';
-
-
+import bcrypt from 'bcrypt';
+import 'dotenv/config';
 
 export class UserController {
     async register(req, res) {
@@ -77,6 +77,56 @@ export class UserController {
             res.send(user);
         } catch (error) {
             res.status(500).send({ message: 'Error al obtener usuario actual' });
+        }
+    }
+
+    async sendPassToEmail(req, res) {
+        try {
+            const { email } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(404).send({ message: 'Usuario no encontrado' });
+            }
+
+            const to = email;
+            const subject = 'Ingresa el codigo de verificación para restablecer tu contraseña';
+            const text = `Proceso de restablecimiento de contraseña. Tu código de verificación es: ${process.env.VERIFICATION_CODE}`;
+            const html = `<h1>el codigo es : ${process.env.VERIFICATION_CODE}</h1>`
+
+            const manager = new Writer(req);
+            await manager.sendMail(to, subject, text, html);
+
+            res.render('comparePass', { userEmail: email, layout: 'simple' });
+            
+        } catch (error) {
+            res.status(500).send({ message: 'Error al procesar la solicitud de restablecimiento' });
+        }
+    }
+    
+    async compareNewPass(req, res) {
+        try {
+            const { email, password1, password2 , code} = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(404).send({ message: 'Usuario no encontrado' });
+            }
+
+            if (code !== process.env.VERIFICATION_CODE) {
+                return res.status(400).send({ message: 'Código de verificación incorrecto' });
+            }
+
+            if (password1 !== password2) {
+                return res.status(400).send({ message: 'Las contraseñas no coinciden' });
+            }
+
+            const hashedPassword = await bcrypt.hash(password1, 10);
+            user.password = hashedPassword;
+            await user.save();
+            res.render('successReset', { layout: 'simple' });
+        } catch (error) {
+            res.status(500).send({ message: 'Error al actualizar la contraseña' });
         }
     }
 }

@@ -1,4 +1,5 @@
-import path from 'node:path'
+import cors from 'cors';
+import path from 'node:path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import handlebars from 'express-handlebars'
@@ -14,6 +15,8 @@ import { errorHandler, getName, getCurrentUser } from './middlewares/userMiddlew
 
 // ------------- Server config ----------------->
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +27,11 @@ app.use(expressSession({secret: process.env.SESSION_SECRET, resave: false, saveU
 app.use(getName);
 app.use(errorHandler);
 app.use(getCurrentUser);
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // ------------- Handlebars ----------------->
 app.engine('hbs', handlebars.engine({extname: '.hbs'}));
@@ -44,3 +52,5 @@ initMongoDB()
 app.listen(8080, () => {
   console.log(`Server is running on port 8080`);
 });
+
+

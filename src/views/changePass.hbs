@@ -1,0 +1,11 @@
+<h1>Buscar email</h1>
+
+<form action="/users/sendPassToEmail" method="post" id="searchEmail-form">
+  Email:
+  <input type="email" name="email" id="email" placeholder="Email" />
+  <input type="submit" value="Verificar correo" />
+</form>
+
+<div id="error-message" style="color: red">{{error}}</div>
+<div id="sucess-message" style="color: green;"></div>
+
