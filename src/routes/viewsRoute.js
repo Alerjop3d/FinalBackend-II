@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 // ------------- Login views routes ----------------->
-router.get("/login", (req, res) => { res.render("login", {layout : "simple"}) });
+router.get("/login", (req, res) => { res.render("login", {layout : "simple"})  });
 router.get("/register", (req, res) => { res.render("register", {layout : "simple"}) });
 router.get("/profile", (req, res) => { res.render("profile", {layout : "simple"}) });
 router.get("/changePass", (req, res) => { res.render("changePass", {layout : "simple"}) });

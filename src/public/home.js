@@ -7,6 +7,7 @@ const bottomPanel = document.createElement('div');
 const boton = document.querySelector('#sidebar-button')
 boton.addEventListener('click', () => { sidebar.classList.toggle('open'); setCart(); });
 
+const domain = window.location.origin;
 const pathname = window.location.pathname; 
 const parts = pathname.split('/'); 
 const productType = parts[parts.length - 1];
@@ -15,7 +16,8 @@ const productType = parts[parts.length - 1];
 // ------------- main Fetch All Products View ----------------- //
 const renderProducts = async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/products/${productType}`);
+    console.log(`domain: ${domain}`);
+    const response = await fetch(`${domain}/api/products/${productType}`);
     const products = await response.json();
 
     products.forEach(product => {
@@ -31,7 +33,7 @@ const renderProducts = async () => {
       const adder = productCard.querySelector('.add-item');
       adder.addEventListener('click', async () => {
         try {
-          await fetch(`http://localhost:8080/api/cart/product/${product.id}`, {
+          await fetch(`${domain}/api/cart/product/${product.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
@@ -53,7 +55,7 @@ renderProducts();
 
 // ------------- Shopping Cart Fetch Products ----------------- //
 function setCart () {
-  fetch('http://localhost:8080/api/cart')
+  fetch(`${domain}/api/cart`)
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -87,7 +89,7 @@ function setCart () {
       const del = productItem.querySelector('.delItem');
       del.addEventListener('click', async () => {
         try {
-          const response = await fetch(`http://localhost:8080/api/cart/product/${product.id}`, {
+          const response = await fetch(`${domain}/api/cart/product/${product.id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
@@ -105,7 +107,7 @@ function setCart () {
 // ------------- Buy Products ----------------- //
 async function buyItems() {
   try {
-    const response = await fetch('http://localhost:8080/api/cart');
+    const response = await fetch(`${domain}/api/cart`);
     const cartItems = await response.json();
     console.log(cartItems)
     if (cartItems.length > 0) {

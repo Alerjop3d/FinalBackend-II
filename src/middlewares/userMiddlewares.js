@@ -69,8 +69,3 @@ export const getCurrentUser = (req, res, next) => {
   next();
 };
 
-export const corsOptions = {
-  origin: '*', // Permite cualquier origen
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Permite estos métodos
-  allowedHeaders: 'Content-Type, Authorization', // Permite estos encabezados
-};
