@@ -11,27 +11,22 @@ import viewsRoutes from './routes/viewsRoute.js';
 import productsRoute from './routes/productsRoute.js';
 
 import { initMongoDB } from './connections/mongo.js';
-import { errorHandler, getName, getCurrentUser } from './middlewares/userMiddlewares.js';
+import * as middleware from './middlewares/userMiddlewares.js';
 
 // ------------- Server config ----------------->
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(middleware.corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), 'src', 'public')));
 app.use(expressSession({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 
 // ------------- Middlewares ----------------->
-app.use(getName);
-app.use(errorHandler);
-app.use(getCurrentUser);
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(middleware.getName);
+app.use(middleware.errorHandler);
+app.use(middleware.getCurrentUser);
 
 // ------------- Handlebars ----------------->
 app.engine('hbs', handlebars.engine({extname: '.hbs'}));
