@@ -134,7 +134,7 @@ async function buyItems() {
 
 // ------------------- Fecth Functions ----------------------- //
 function clearCart() {
-  fetch('http://localhost:8080/api/cart/', {
+  fetch(`${domain}/api/cart/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
